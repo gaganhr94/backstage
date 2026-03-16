@@ -78,6 +78,8 @@ export const PageBlueprint = createExtensionBlueprint({
     const resolvedTitle =
       title ?? node.spec.plugin.title ?? node.spec.plugin.pluginId;
     const resolvedIcon = icon ?? node.spec.plugin.icon;
+    const titleRouteRef =
+      (node.spec.plugin.routes as { root?: RouteRef }).root ?? params.routeRef;
 
     yield coreExtensionData.routePath(config.path ?? params.path);
     if (params.loader) {
@@ -91,6 +93,7 @@ export const PageBlueprint = createExtensionBlueprint({
             title={resolvedTitle}
             icon={resolvedIcon}
             noHeader={noHeader}
+            titleRouteRef={titleRouteRef}
             headerActions={headerActions}
           >
             {ExtensionBoundary.lazy(node, loader)}
@@ -123,6 +126,7 @@ export const PageBlueprint = createExtensionBlueprint({
             title={resolvedTitle}
             icon={resolvedIcon}
             tabs={tabs}
+            titleRouteRef={titleRouteRef}
             headerActions={headerActions}
           >
             <Routes>
@@ -153,6 +157,7 @@ export const PageBlueprint = createExtensionBlueprint({
           <PageLayout
             title={resolvedTitle}
             icon={resolvedIcon}
+            titleRouteRef={titleRouteRef}
             headerActions={headerActions}
           />
         );

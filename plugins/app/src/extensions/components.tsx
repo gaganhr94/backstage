@@ -19,6 +19,8 @@ import {
   ErrorDisplay as SwappableErrorDisplay,
   PageLayout as SwappablePageLayout,
   type PageLayoutProps,
+  type RouteRef,
+  useRouteRef,
 } from '@backstage/frontend-plugin-api';
 import { SwappableComponentBlueprint } from '@backstage/plugin-app-react';
 import {
@@ -26,10 +28,24 @@ import {
   ErrorPanel,
   Progress as ProgressComponent,
 } from '@backstage/core-components';
-import { PluginHeader } from '@backstage/ui';
+import { PluginHeader, type PluginHeaderProps } from '@backstage/ui';
 import Button from '@material-ui/core/Button';
 import { useMemo } from 'react';
 import { useResolvedPath } from 'react-router-dom';
+
+function PluginHeaderWithTitleLink(
+  props: { titleRouteRef: RouteRef } & PluginHeaderProps,
+) {
+  const { titleRouteRef, ...rest } = props;
+  const resolve = useRouteRef(titleRouteRef);
+  let titleLink: string | undefined;
+  try {
+    titleLink = resolve?.();
+  } catch {
+    // Route ref requires params not available in the current context
+  }
+  return <PluginHeader {...rest} titleLink={titleLink} />;
+}
 
 export const Progress = SwappableComponentBlueprint.make({
   name: 'core-progress',
@@ -75,7 +91,15 @@ export const PageLayout = SwappableComponentBlueprint.make({
     define({
       component: SwappablePageLayout,
       loader: () => (props: PageLayoutProps) => {
-        const { title, icon, noHeader, headerActions, tabs, children } = props;
+        const {
+          title,
+          icon,
+          noHeader,
+          titleRouteRef,
+          headerActions,
+          tabs,
+          children,
+        } = props;
         // TODO(Rugvip): Different solution to this path handling would be good
         const parentPath = useResolvedPath('.').pathname.replace(/\/$/, '');
         const resolvedTabs = useMemo(
@@ -94,14 +118,23 @@ export const PageLayout = SwappableComponentBlueprint.make({
           return <>{children}</>;
         }
 
+        const headerProps = {
+          title,
+          icon,
+          tabs: resolvedTabs,
+          customActions: headerActions,
+        };
+
         return (
           <>
-            <PluginHeader
-              title={title}
-              icon={icon}
-              tabs={resolvedTabs}
-              customActions={headerActions}
-            />
+            {titleRouteRef ? (
+              <PluginHeaderWithTitleLink
+                titleRouteRef={titleRouteRef}
+                {...headerProps}
+              />
+            ) : (
+              <PluginHeader {...headerProps} />
+            )}
             {children}
           </>
         );
