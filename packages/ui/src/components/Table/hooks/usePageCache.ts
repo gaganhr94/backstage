@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 
 const FIRST_PAGE_CURSOR = Symbol('firstPage');
 
@@ -57,6 +57,7 @@ export interface UsePageCacheResult<T, TCursor extends CursorType = string> {
   onPreviousPage: () => void;
   hasNextPage: boolean;
   onNextPage: () => void;
+  accumulatedData: T[];
   reload: (options?: { keepCurrentCursor?: boolean }) => void;
 }
 
@@ -123,6 +124,34 @@ class PageCacheStore<T, TCursor extends CursorType> {
       entry.nextCursor = currentCursor;
     }
   }
+
+  getAllData(startCursor: InternalCursor<TCursor>): T[] {
+    const result: T[] = [];
+    let cursor: InternalCursor<TCursor> | undefined = startCursor;
+
+    while (cursor !== undefined) {
+      const entry = this.cache.get(cursor);
+      if (!entry?.data) break;
+      result.push(...entry.data);
+      cursor = entry.nextCursor;
+    }
+
+    return result;
+  }
+
+  getFirstCursor(fromCursor: InternalCursor<TCursor>): InternalCursor<TCursor> {
+    let cursor = fromCursor;
+    const visited = new Set<InternalCursor<TCursor>>();
+
+    while (true) {
+      visited.add(cursor);
+      const entry = this.cache.get(cursor);
+      if (!entry?.prevCursor || visited.has(entry.prevCursor)) break;
+      cursor = entry.prevCursor;
+    }
+
+    return cursor;
+  }
 }
 
 function toInternalCursor<TCursor extends CursorType>(
@@ -159,6 +188,12 @@ export function usePageCache<T, TCursor extends CursorType = string>(
   const data = currentPage?.data;
   const hasNextPage = currentPage?.nextCursor !== undefined;
   const hasPreviousPage = currentPage?.prevCursor !== undefined;
+
+  const firstCursor = cacheStore.getFirstCursor(currentCursor);
+  const accumulatedData = useMemo(
+    () => cacheStore.getAllData(firstCursor),
+    [cacheStore, firstCursor, data, loading],
+  );
 
   const goToPage = useCallback(
     async (direction: Direction) => {
@@ -275,6 +310,7 @@ export function usePageCache<T, TCursor extends CursorType = string>(
     onPreviousPage,
     hasNextPage,
     onNextPage,
+    accumulatedData,
     reload,
   };
 }
