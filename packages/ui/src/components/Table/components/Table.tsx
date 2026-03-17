@@ -18,6 +18,7 @@ import { useId } from 'react-aria';
 import {
   type Key,
   ResizableTableContainer,
+  TableLoadMoreItem,
   Virtualizer,
 } from 'react-aria-components';
 import { TableLayout } from '@react-stately/layout';
@@ -177,6 +178,30 @@ export function Table<T extends TableItem>({
       elem
     );
 
+  const renderRow = (item: T) => {
+    const itemIndex = data?.indexOf(item) ?? -1;
+
+    if (isRowRenderFn(rowConfig)) {
+      return rowConfig({
+        item,
+        index: itemIndex,
+      });
+    }
+
+    return (
+      <Row
+        id={String(item.id)}
+        columns={visibleColumns}
+        href={rowConfig?.getHref?.(item)}
+        onAction={
+          rowConfig?.onClick ? () => rowConfig?.onClick?.(item) : undefined
+        }
+      >
+        {column => column.cell(item)}
+      </Row>
+    );
+  };
+
   return (
     <div className={classes.root} style={style}>
       <VisuallyHidden aria-live="polite" id={liveRegionId}>
@@ -229,31 +254,17 @@ export function Table<T extends TableItem>({
                   emptyState ? () => <Flex p="3">{emptyState}</Flex> : undefined
                 }
               >
-                {item => {
-                  const itemIndex = data?.indexOf(item) ?? -1;
-
-                  if (isRowRenderFn(rowConfig)) {
-                    return rowConfig({
-                      item,
-                      index: itemIndex,
-                    });
-                  }
-
-                  return (
-                    <Row
-                      id={String(item.id)}
-                      columns={visibleColumns}
-                      href={rowConfig?.getHref?.(item)}
-                      onAction={
-                        rowConfig?.onClick
-                          ? () => rowConfig?.onClick?.(item)
-                          : undefined
-                      }
-                    >
-                      {column => column.cell(item)}
-                    </Row>
-                  );
-                }}
+                {pagination.type === 'infinite' ? (
+                  <>
+                    {data?.map(item => renderRow(item))}
+                    <TableLoadMoreItem
+                      onLoadMore={pagination.onLoadMore}
+                      isLoading={pagination.isLoading}
+                    />
+                  </>
+                ) : (
+                  renderRow
+                )}
               </TableBody>
             )}
           </TableRoot>,
