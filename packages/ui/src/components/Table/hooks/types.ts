@@ -163,6 +163,7 @@ export interface PaginationResult<T> {
   onNextPage: () => void;
   onPreviousPage: () => void;
   onPageSizeChange: (size: number) => void;
+  accumulatedData?: T[];
 }
 
 /** @internal */

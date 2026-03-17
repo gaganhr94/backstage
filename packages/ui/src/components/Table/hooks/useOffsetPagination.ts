@@ -101,6 +101,7 @@ export function useOffsetPagination<T extends TableItem, TFilter>(
     onNextPage: cache.onNextPage,
     onPreviousPage: cache.onPreviousPage,
     onPageSizeChange,
+    accumulatedData: cache.accumulatedData,
     reload: cache.reload,
   };
 }

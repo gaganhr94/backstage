@@ -88,6 +88,7 @@ export function useCursorPagination<T extends TableItem, TFilter>(
     onNextPage: cache.onNextPage,
     onPreviousPage: cache.onPreviousPage,
     onPageSizeChange,
+    accumulatedData: cache.accumulatedData,
     reload: cache.reload,
   };
 }

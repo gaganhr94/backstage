@@ -41,6 +41,7 @@ function useTableProps<T extends TableItem>(
     onNextPage: onNextPageCallback,
     onPreviousPage: onPreviousPageCallback,
     getLabel,
+    infinite,
   } = paginationOptions;
 
   const previousDataRef = useRef(paginationResult.data);
@@ -51,7 +52,7 @@ function useTableProps<T extends TableItem>(
   const displayData = paginationResult.data ?? previousDataRef.current;
   const isStale = paginationResult.loading && displayData !== undefined;
 
-  const pagination = useMemo(
+  const pagePagination = useMemo(
     () => ({
       type: 'page' as const,
       pageSize: paginationResult.pageSize,
@@ -91,13 +92,53 @@ function useTableProps<T extends TableItem>(
     ],
   );
 
-  return useMemo(
+  const infinitePagination = useMemo(
+    () => ({
+      type: 'infinite' as const,
+      onLoadMore: paginationResult.onNextPage,
+      onLoadPrevious: paginationResult.hasPreviousPage
+        ? paginationResult.onPreviousPage
+        : undefined,
+      isLoading: paginationResult.loading,
+      hasPreviousPages: paginationResult.hasPreviousPage,
+    }),
+    [
+      paginationResult.onNextPage,
+      paginationResult.onPreviousPage,
+      paginationResult.loading,
+      paginationResult.hasPreviousPage,
+    ],
+  );
+
+  const infiniteDisplayData = paginationResult.accumulatedData ?? displayData;
+
+  const infiniteResult = useMemo(
+    () => ({
+      data: infiniteDisplayData,
+      loading: paginationResult.loading,
+      isStale,
+      error: paginationResult.error,
+      pagination: infinitePagination,
+      sort: sortState,
+      virtualized: true as const,
+    }),
+    [
+      infiniteDisplayData,
+      paginationResult.loading,
+      isStale,
+      paginationResult.error,
+      infinitePagination,
+      sortState,
+    ],
+  );
+
+  const pageResult = useMemo(
     () => ({
       data: displayData,
       loading: paginationResult.loading,
       isStale,
       error: paginationResult.error,
-      pagination,
+      pagination: pagePagination,
       sort: sortState,
     }),
     [
@@ -105,12 +146,14 @@ function useTableProps<T extends TableItem>(
       paginationResult.loading,
       isStale,
       paginationResult.error,
-      pagination,
+      pagePagination,
       showPageSizeOptions,
       getLabel,
       sortState,
     ],
   );
+
+  return infinite ? infiniteResult : pageResult;
 }
 
 /** @public */
