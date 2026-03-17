@@ -37,7 +37,7 @@ export function useCompletePagination<T extends TableItem, TFilter>(
     filterFn,
     searchFn,
   } = options;
-  const { initialOffset = 0 } = paginationOptions;
+  const { initialOffset = 0, infinite } = paginationOptions;
   const defaultPageSize = getEffectivePageSize(paginationOptions);
 
   const getData = useStableCallback(getDataProp);
@@ -115,8 +115,11 @@ export function useCompletePagination<T extends TableItem, TFilter>(
 
   // Paginate the processed data
   const paginatedData = useMemo(
-    () => processedData?.slice(offset, offset + pageSize),
-    [processedData, offset, pageSize],
+    () =>
+      infinite
+        ? processedData?.slice(0, offset + pageSize)
+        : processedData?.slice(offset, offset + pageSize),
+    [processedData, offset, pageSize, infinite],
   );
 
   const hasNextPage = offset + pageSize < totalCount;
@@ -156,6 +159,7 @@ export function useCompletePagination<T extends TableItem, TFilter>(
     onNextPage,
     onPreviousPage,
     onPageSizeChange,
+    accumulatedData: infinite ? paginatedData : undefined,
     reload,
   };
 }
