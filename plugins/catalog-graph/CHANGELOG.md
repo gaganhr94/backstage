@@ -1,5 +1,13 @@
 # @backstage/plugin-catalog-graph
 
+## 0.6.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/ui@0.14.0
+  - @backstage/plugin-catalog-react@2.1.1
+
 ## 0.6.0
 
 ### Minor Changes

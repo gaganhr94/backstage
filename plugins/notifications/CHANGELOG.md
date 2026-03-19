@@ -1,5 +1,12 @@
 # @backstage/plugin-notifications
 
+## 0.5.16
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/ui@0.14.0
+
 ## 0.5.15
 
 ### Patch Changes

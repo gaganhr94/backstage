@@ -1,5 +1,11 @@
 # @backstage/repo-tools
 
+## 0.17.1
+
+### Patch Changes
+
+- 270efef: Added support for packages that only support React 18+ in the `peer-deps` command.
+
 ## 0.17.0
 
 ### Minor Changes

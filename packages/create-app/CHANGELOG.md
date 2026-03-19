@@ -1,5 +1,11 @@
 # @backstage/create-app
 
+## 0.8.1
+
+### Patch Changes
+
+- 4cf9f3a: Removed the unnecessary `@backstage/cli-module-new` dependency from the `next-app` template, since it is already included through `@backstage/cli-defaults`.
+
 ## 0.8.0
 
 ### Minor Changes

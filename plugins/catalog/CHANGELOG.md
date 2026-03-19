@@ -1,5 +1,14 @@
 # @backstage/plugin-catalog
 
+## 2.0.1
+
+### Patch Changes
+
+- 744f904: Fixed the catalog table briefly showing an empty loading state when changing filters. The table now keeps displaying stale results until new data arrives.
+- Updated dependencies
+  - @backstage/ui@0.14.0
+  - @backstage/plugin-catalog-react@2.1.1
+
 ## 2.0.0
 
 ### Major Changes

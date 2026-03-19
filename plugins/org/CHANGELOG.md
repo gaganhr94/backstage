@@ -1,5 +1,13 @@
 # @backstage/plugin-org
 
+## 0.7.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/ui@0.14.0
+  - @backstage/plugin-catalog-react@2.1.1
+
 ## 0.7.0
 
 ### Minor Changes

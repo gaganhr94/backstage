@@ -1,5 +1,13 @@
 # @backstage/frontend-dev-utils
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/ui@0.14.0
+  - @backstage/plugin-app@0.4.2
+
 ## 0.1.0
 
 ### Minor Changes

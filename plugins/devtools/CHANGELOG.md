@@ -1,5 +1,12 @@
 # @backstage/plugin-devtools
 
+## 0.1.38
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/ui@0.14.0
+
 ## 0.1.37
 
 ### Patch Changes

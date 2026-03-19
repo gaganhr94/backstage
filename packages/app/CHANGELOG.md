@@ -1,5 +1,27 @@
 # example-app
 
+## 0.0.34
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/ui@0.14.0
+  - @backstage/plugin-catalog-react@2.1.1
+  - @backstage/plugin-catalog@2.0.1
+  - @backstage/core-app-api@1.19.7
+  - @backstage/plugin-api-docs@0.13.6
+  - @backstage/plugin-app@0.4.2
+  - @backstage/plugin-app-visualizer@0.2.2
+  - @backstage/plugin-auth@0.1.7
+  - @backstage/plugin-catalog-graph@0.6.1
+  - @backstage/plugin-catalog-unprocessed-entities@0.2.28
+  - @backstage/plugin-devtools@0.1.38
+  - @backstage/plugin-notifications@0.5.16
+  - @backstage/plugin-org@0.7.1
+  - @backstage/plugin-search@1.7.1
+  - @backstage/plugin-user-settings@0.9.2
+  - @backstage/cli@0.36.0
+
 ## 0.0.33
 
 ### Patch Changes

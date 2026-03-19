@@ -1,5 +1,15 @@
 # @backstage/ui
 
+## 0.14.0
+
+### Minor Changes
+
+- bed3307: **BREAKING**: Dropped support for React 17. The minimum supported React version is now 18.
+
+### Patch Changes
+
+- 0257ada: Added `react-aria`, `react-stately`, `@react-aria/interactions`, `@react-stately/layout`, and `@react-stately/overlays` as dependencies.
+
 ## 0.13.0
 
 ### Minor Changes

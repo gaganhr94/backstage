@@ -1,5 +1,12 @@
 # @backstage/core-app-api
 
+## 1.19.7
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/ui@0.14.0
+
 ## 1.19.6
 
 ### Patch Changes

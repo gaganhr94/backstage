@@ -1,5 +1,16 @@
 # example-backend
 
+## 0.0.49
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/plugin-auth-backend@0.28.0
+  - @backstage/plugin-auth-backend-module-github-provider@0.5.1
+  - @backstage/plugin-auth-backend-module-openshift-provider@0.1.5
+  - @backstage/plugin-notifications-backend@0.6.3
+  - @backstage/plugin-signals-backend@0.3.13
+
 ## 0.0.48
 
 ### Patch Changes

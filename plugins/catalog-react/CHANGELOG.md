@@ -1,5 +1,13 @@
 # @backstage/plugin-catalog-react
 
+## 2.1.1
+
+### Patch Changes
+
+- 51aacae: Fixed a UI flicker in the catalog entity list where changing a filter would briefly flash stale data before showing the new results.
+- Updated dependencies
+  - @backstage/ui@0.14.0
+
 ## 2.1.0
 
 ### Minor Changes
